@@ -1,0 +1,21 @@
+from scapy.all import sniff, Ether, IP, TCP, UDP
+
+def packet_callback(packet):
+    if Ether in packet:
+        print("Ethernet Frame:")
+        print(f"Source MAC: {packet[Ether].src}, Destination MAC: {packet[Ether].dst}")
+
+    if IP in packet:
+        print("IP Packet:")
+        print(f"Source IP: {packet[IP].src}, Destination IP: {packet[IP].dst}")
+
+    if TCP in packet:
+        print("TCP Segment:")
+        print(f"Source Port: {packet[TCP].sport}, Destination Port: {packet[TCP].dport}")
+
+    if UDP in packet:
+        print("UDP Datagram:")
+        print(f"Source Port: {packet[UDP].sport}, Destination Port: {packet[UDP].dport}")
+
+# Sniff packets
+sniff(prn=packet_callback, store=0)
